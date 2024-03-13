@@ -5,7 +5,7 @@
 This is Project of Python and Django develop under Software Programming and Software Engineering Principle and Practices Subject of Computer Engineering Semester-4 of DDU Nadiad.
 <br>
 This Project is Developed by:<br>
-&nbsp<br>
-&nbsp<br>
+Vadhel Milan N<br>
+Akola Aryan N<br>
 
 </p>
