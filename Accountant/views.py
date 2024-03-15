@@ -1,8 +1,20 @@
 from django.shortcuts import render
-
+from django.http import HttpResponse
+from django.shortcuts import redirect
+from Inventory.models import *
 # Create your views here.
 def purchasebill(request):
-    return render(request,"purchasebill.html")
+    purchase=Purchase_Party.objects.all()
+    raw=RawMaterial.objects.all()
+    return render(request,"purchasebill.html",{
+        'purchase':purchase,
+        'raw':raw
+    })
+    
+    
+
+    
+    
 def salesbill(request):
     return render(request,"salesbill.html")
 def paymentreceived(request):
