@@ -6,9 +6,9 @@ from Inventory.models import Sales_Party
 # Create your models here.
 
 class SalesItem(models.Model):
-   Finish_good_name=models.CharField(max_length=50)
-   Fg_qty=models.IntegerField()
-   Fg_Price=models.FloatField()
+    Finish_good_name=models.CharField(max_length=50)
+    Fg_qty=models.IntegerField()
+    Fg_Price=models.FloatField()
 
 class SalesBill(models.Model):
     sales_Id=models.ForeignKey(SalesItem,on_delete=models.CASCADE)
@@ -49,4 +49,4 @@ class creditors(models.Model):
 
 
 
-    
+
