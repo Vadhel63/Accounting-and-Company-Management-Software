@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Finish Goods</title>
+  </head>
+  <body>
+    <h1>Enter the Finish Goods</h1>
+    <form action="{%url 'displayfinishgoods'%}" method="post">
+      {%csrf_token%}
+      <input type="text" name="fg" id="" placeholder="Finish Goods Name" /><br />
+      <input type="text" name="fg1" id="" placeholder="Finish Goods qty" /><br />
+      <button type="reset">Reset</button><button type="submit">Submit</button>
+    </form>
+  </body>
+</html>

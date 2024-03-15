@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Raw Material</title>
+  </head>
+  <body>
+    <h1>Enter Raw Material</h1>
+    <form action="{%url 'displayraw'%}" method="post">
+      {% csrf_token %}
+      <input type="text" name="raw" id="" placeholder="Raw Material Name" required /><br />
+      <input type="number" name="raw1" id="" placeholder="Raw Material quantity" required/><br />
+      <button type="reset">Reset</button><button type="submit">Submit</button>
+    </form>
+  </body>
+</html>

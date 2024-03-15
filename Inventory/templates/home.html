@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+  </head>
+  <body>
+    <h1>Home</h1>
+    <hr />
+    <h2>Daily usage</h2>
+    Create Bill or enter purchased products' bill, miscellaneous expenses,
+    payment paid or payment received in the respected Pages <br />
+    <br />
+    <a href="{%url 'salesbill' %}"><button>Billing Page</button></a>
+    <a href="{%url 'purchasebill'%}"><button>Purchase Page</button></a>
+    <a href="{%url 'P_Report'%}"><button>Production Report</button></a>
+    <a href="{%url 'Misc'%}"><button>Miscellaneous Expenses</button></a
+    >
+    <a href="{% url 'paymentreceived'%}"><button>Payment Received</button></a>
+    <a href="{%url 'paymentpaid'%}"><button>Payment Paid</button></a>
+    <hr />
+    <h2>Accounting</h2>
+    The functon required for clearing round of the company account<br />
+    <br />
+    <a href="{% url 'creditors' %}"><button>Creditors</button></a>
+    <a href="{% url 'debtors' %}"><button>Debtors</button></a>
+    <a href="ledger.html"><button>Ledger</button></a>
+    <a href="summary.html"><button>Summary</button></a>
+    <hr />
+
+    <h2>Entry Page</h2>
+    Enter the details of the following in the respected Pages <br />
+    <br />
+    <a href="{%url 'purchase' %}"><button>Purchase Party</button></a>
+    <a href="{%url 'sales' %}"><button>Sales Party</button></a>
+    <a href="{%url 'rawmaterial' %}"><button>Raw Material</button></a>
+    <a href="{%url 'finishgood' %}"><button>Finish Goods</button></a>
+    <hr />
+    <h2>Employees Page</h2>
+    Enter the details of Employee, track the work hours of the employee and
+    salary page the following in the respected Pages <br />
+    <br />
+    <a href="{%url 'employee'%}"><button>Enter Employee Details</button></a>
+    <a href="{% url 'employeework'%}"><button>Employee Work Hour</button></a>
+    <a href="{% url 'employeesalary'%}"><button>Salary</button></a>
+    <hr />
+  </body>
+</html>
