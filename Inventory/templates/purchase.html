@@ -1,24 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Enter Purchase Party</title>
-  </head>
-  <body>
-    <h1>Enter Purchase Party</h1>
-    <form action="{%url 'DisplayPurchase'%}" method="post">
-      {% csrf_token %}
-      <input type="date" name="" id="" /><br />
-      <input type="text" name="c_name" id="" placeholder="Company Name" required/><br />
-      <input type="text" name="c_no" id="" placeholder="Company Number" required/><br />
-      <input type="text" name="gst_no" id="" placeholder="GST number" required /><br />
-      <input type="text" name="location" id="" placeholder="Location"  required/><br />
-      <input type="text" name="c_owner" id="" placeholder="Company Owner"  required/><br />
-      
-      <br />
-      <button type="reset">Reset</button>
-      <button type="submit">Submit</button>
-    </form>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enter Purchase Party</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    form {
+      max-width: 400px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    input[type="text"],
+    input[type="date"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    button[type="reset"],
+    button[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+
+    button[type="reset"]:hover,
+    button[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Enter Purchase Party</h1>
+  <form action="{% url 'DisplayPurchase' %}" method="post">
+    {% csrf_token %}
+    <label for="date">Date:</label>
+    <input type="date" name="date" id="date" required/><br />
+
+    <label for="c_name">Company Name:</label>
+    <input type="text" name="c_name" id="c_name" placeholder="Company Name" required/><br />
+
+    <label for="c_no">Company Number:</label>
+    <input type="text" name="c_no" id="c_no" placeholder="Company Number" required/><br />
+
+    <label for="gst_no">GST Number:</label>
+    <input type="text" name="gst_no" id="gst_no" placeholder="GST Number" required/><br />
+
+    <label for="location">Location:</label>
+    <input type="text" name="location" id="location" placeholder="Location" required/><br />
+
+    <label for="c_owner">Company Owner:</label>
+    <input type="text" name="c_owner" id="c_owner" placeholder="Company Owner" required/><br />
+
+    <button type="reset">Reset</button>
+    <button type="submit">Submit</button>
+  </form>
+</body>
 </html>

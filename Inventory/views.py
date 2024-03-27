@@ -3,8 +3,6 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from Inventory.models import *
 # Create your views here.
-def index(request):
-    return render(request,"home.html")
 
 #sales_party-----------------------------
 def sales(request):
@@ -21,7 +19,8 @@ def DisplaySales(request):
 
 def displaysales1(request):
     sales=Sales_Party.objects.all()
-    return render(request,"displaysales.html",{
+    print(sales)
+    return render(request,"displaysales1.html",{
         "sales":sales
     })
 #---------------------------------
@@ -33,7 +32,7 @@ def productionreport(request):
 #purchase_party------------------------
 def displaypurchase1(request):
     purchase=Purchase_Party.objects.all()
-    return render(request,"displaypurchase.html",{
+    return render(request,"displaypurchase1.html",{
         "purchase":purchase
     })
 
@@ -57,8 +56,8 @@ def rawmaterial(request):
 
 def displayraw(request):
     raw_name=request.POST['raw']
-    raw_qty=request.POST['raw1']
-    raw=RawMaterial.objects.create(RM_name=raw_name,RM_qty=raw_qty)
+   
+    raw=RawMaterial.objects.create(RM_name=raw_name)
     raw.save()
     return redirect("displayraw1")
 
@@ -77,8 +76,7 @@ def finishgood(request):
 
 def displayfinishgoods(request):
     finishgoodname=request.POST['fg']
-    finishgoodqty=request.POST['fg1']
-    f1=FinishGoods.objects.create(FG_name=finishgoodname,FG_qty=finishgoodqty)
+    f1=FinishGoods.objects.create(FG_name=finishgoodname)
     f1.save()
     return redirect("displayfinishgoods1")
 

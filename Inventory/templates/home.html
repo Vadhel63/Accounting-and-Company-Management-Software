@@ -1,49 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
-  </head>
-  <body>
-    <h1>Home</h1>
-    <hr />
-    <h2>Daily usage</h2>
-    Create Bill or enter purchased products' bill, miscellaneous expenses,
-    payment paid or payment received in the respected Pages <br />
-    <br />
-    <a href="{%url 'salesbill' %}"><button>Billing Page</button></a>
-    <a href="{%url 'purchasebill'%}"><button>Purchase Page</button></a>
-    <a href="{%url 'P_Report'%}"><button>Production Report</button></a>
-    <a href="{%url 'Misc'%}"><button>Miscellaneous Expenses</button></a
-    >
-    <a href="{% url 'paymentreceived'%}"><button>Payment Received</button></a>
-    <a href="{%url 'paymentpaid'%}"><button>Payment Paid</button></a>
-    <hr />
-    <h2>Accounting</h2>
-    The functon required for clearing round of the company account<br />
-    <br />
-    <a href="{% url 'creditors' %}"><button>Creditors</button></a>
-    <a href="{% url 'debtors' %}"><button>Debtors</button></a>
-    <a href="ledger.html"><button>Ledger</button></a>
-    <a href="summary.html"><button>Summary</button></a>
-    <hr />
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+      margin: 0;
+      padding: 20px;
+    }
 
+    h1, h2 {
+      color: #333;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .hr-style {
+      border: none;
+      border-top: 1px solid #ccc;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Home</h1>
+    <hr class="hr-style">
+    <h2>Daily Usage</h2>
+    Create a bill, enter purchased products' bill, miscellaneous expenses,
+    payment received, or payment paid in the respected Pages <br /><br />
+    <a href="{% url 'salesbill' %}" class="btn">Billing Page</a>
+    <a href="{% url 'purchasebill' %}" class="btn">Purchase Page</a>
+    <a href="{% url 'P_Report' %}" class="btn">Production Report</a>
+    <a href="{% url 'Misc' %}" class="btn">Miscellaneous Expenses</a>
+    <a href="{% url 'paymentreceived' %}" class="btn">Payment Received</a>
+    <a href="{% url 'paymentpaid' %}" class="btn">Payment Paid</a>
+    <hr class="hr-style">
+    <h2>Accounting</h2>
+    The function required for clearing round of the company account<br /><br />
+    <a href="{% url 'creditors' %}" class="btn">Creditors</a>
+    <a href="{% url 'debtors' %}" class="btn">Debtors</a>
+    <a href="ledger.html" class="btn">Ledger</a>
+    <a href="summary.html" class="btn">Summary</a>
+    <hr class="hr-style">
     <h2>Entry Page</h2>
-    Enter the details of the following in the respected Pages <br />
-    <br />
-    <a href="{%url 'purchase' %}"><button>Purchase Party</button></a>
-    <a href="{%url 'sales' %}"><button>Sales Party</button></a>
-    <a href="{%url 'rawmaterial' %}"><button>Raw Material</button></a>
-    <a href="{%url 'finishgood' %}"><button>Finish Goods</button></a>
-    <hr />
+    Enter the details of the following in the respected Pages <br /><br />
+    <a href="{% url 'purchase' %}" class="btn">Purchase Party</a>
+    <a href="{% url 'sales' %}" class="btn">Sales Party</a>
+    <a href="{% url 'rawmaterial' %}" class="btn">Raw Material</a>
+    <a href="{% url 'finishgood' %}" class="btn">Finish Goods</a>
+    <hr class="hr-style">
     <h2>Employees Page</h2>
     Enter the details of Employee, track the work hours of the employee and
-    salary page the following in the respected Pages <br />
-    <br />
-    <a href="{%url 'employee'%}"><button>Enter Employee Details</button></a>
-    <a href="{% url 'employeework'%}"><button>Employee Work Hour</button></a>
-    <a href="{% url 'employeesalary'%}"><button>Salary</button></a>
-    <hr />
-  </body>
+    salary page the following in the respected Pages <br /><br />
+    <a href="{% url 'employee' %}" class="btn">Enter Employee Details</a>
+    <a href="{% url 'employeework' %}" class="btn">Employee Work Hour</a>
+    <a href="{% url 'employeesalary' %}" class="btn">Salary</a>
+    <hr class="hr-style">
+  </div>
+</body>
 </html>

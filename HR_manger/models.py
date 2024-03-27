@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.core.validators import MinLengthValidator
 # Create your models here.
 
 class Employee(models.Model):
@@ -10,8 +10,16 @@ class Employee(models.Model):
     )
 
     name = models.CharField(max_length=100)
-    phone_number = models.CharField(max_length=20)
-    aadhar_no = models.CharField(max_length=20, unique=True)
+    phone_number = models.CharField(
+        max_length=10,
+        validators=[MinLengthValidator(10)],
+        unique=True
+    )
+    aadhar_no = models.CharField(
+        max_length=12,
+        validators=[MinLengthValidator(12)],
+        unique=True
+    )
     location = models.CharField(max_length=100)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     position = models.CharField(max_length=100)

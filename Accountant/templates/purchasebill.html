@@ -1,51 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Purchase Page</title>
-  </head>
-  <body>
-    <h1>Purchase Page</h1>
-    <form action="post">
-      <input type="date" name="date" id="" placeholder="Date" required/>
-      <br />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Purchase Page</title>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.4.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      padding: 20px;
+    }
 
-      <select name="p_name" id="" required>
-        {% for p in purchase%}
-        <option value="{{p.id}}">{{p.name}}</option>
-        {%endfor%}
-      </select>
-      <br />
-      <br />
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .dynamicField {
+      background-color: #fff;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .dynamicField:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .removeField {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .removeField:hover {
+      background-color: #c82333;
+    }
+
+    /* Style for form labels */
+    .form-label {
+      font-weight: bold;
+      color: #333;
+    }
+
+    /* Style for form controls */
+    .form-control {
+      margin-bottom: 10px;
+      border-radius: 4px;
+    }
+
+    /* Custom styling for date input */
+    #date {
+      background-color: #f8f9fa;
+      border: 1px solid #ced4da;
+      padding: 8px;
+    }
+
+    /* Custom styling for product name select */
+    #p_name {
+      background-color: #f8f9fa;
+      border: 1px solid #ced4da;
+      padding: 8px;
+    }
+
+    /* Add margin-bottom to buttons for spacing */
+    .btn {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Purchase Page</h1>
+    <form action="{% url 'displaypurchasebill' %}" method="post" id="purchaseForm">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="date" class="form-label">Date</label>
+        <input type="date" class="form-control" id="date" name="date" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="p_name" class="form-label">Company Name</label>
+        <select class="form-select" id="p_name" name="p_name" required>
+          {% for p in purchase %}
+            <option value="{{ p.id}}">{{ p.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div id="dynamicFieldsContainer">
+        <div class="dynamicField">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <input type="hidden" id="clickcount" name="clickcount" value="1" >
+              <label for="r_name0" class="form-label">Raw Material Name</label>
+              <select class="form-select" id="r_name0" name="r_name0" required>
+                {% for r in raw %}
+                  <option value="{{ r.RM_name }}">{{ r.RM_name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label for="piece0" class="form-label">No. of Pieces</label>
+              <input type="number" class="form-control" id="piece0" name="piece0" placeholder="Enter quantity" required>
+            </div>
+            <div class="col-md-4">
+              <label for="amount0" class="form-label">Amount of Single Piece</label>
+              <input type="text" class="form-control" id="amount0" name="amount0" placeholder="Enter amount" required>
+            </div>
+          </div>
+          <button type="button" class="btn btn-danger mt-3 removeField">Remove</button>
+        </div>
+      </div>
+
+      <button type="button" class="btn btn-primary mt-3" id="addMore">Add More</button>
       
-      <select name="r_name1" id="" required>
-        {% for r in raw%}
-        <option value="{{r.id}}">{{r.RM_name}}</option>
-        {%endfor%}
-      </select>
-      <input type="number" name="piece" id="" placeholder="No. of piece"  required/>
-      <input type="text" name="amount" id="" placeholder="Amount of single piece" required />
-      <br />
-      <select name="r_name2" id="">
-        {% for r in raw%}
-        <option value="{{r.id}}">{{r.RM_name}}</option>
-        {%endfor%}
-      </select>
-      <input type="number" name="" id="" placeholder="No. of piece" />
-      <input type="text" name="" id="" placeholder="Amount of single piece" />
-      <br />
-      <select name="r_name3" id="">
-        {% for r in raw%}
-        <option value="{{r.id}}">{{r.RM_name}}</option>
-        {%endfor%}
-      </select>
-      <input type="number" name="" id="" placeholder="No. of piece" />
-      <input type="text" name="" id="" placeholder="Amount of single piece" />
-      <br />
-      <br />
-      <button type="reset">Reset</button>
-      <button type="submit">Submit</button>
+      <div class="mt-3">
+        <button type="reset" class="btn btn-secondary">Reset</button>
+        <button type="submit" class="btn btn-success">Submit</button>
+      </div>
     </form>
-  </body>
+  </div>
+
+  <!-- Bootstrap JS (atyre jarur nahi) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.4.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // J
+    var k = 1;
+    document.getElementById('addMore').addEventListener('click', function() {
+      var clickcountInput=document.getElementById('clickcount');
+      var container = document.getElementById('dynamicFieldsContainer');
+      var newField = document.createElement('div');
+      newField.classList.add('dynamicField');
+      newField.innerHTML = `
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label for="r_name${k}" class="form-label">Raw Material Name</label>
+            <select class="form-select" id="r_name${k}" name="r_name${k}" required>
+              {% for r in raw %}
+                <option value="{{ r.RM_name}}">{{ r.RM_name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label for="piece${k}" class="form-label">No. of Pieces</label>
+            <input type="number" class="form-control" id="piece${k}" name="piece${k}" placeholder="Enter quantity" required>
+          </div>
+          <div class="col-md-4">
+            <label for="amount${k}" class="form-label">Amount of Single Piece</label>
+            <input type="text" class="form-control" id="amount${k}" name="amount${k}" placeholder="Enter amount" required>
+          </div>
+        </div>
+        <button type="button" class="btn btn-danger mt-3 removeField">Remove</button>
+      `;
+      container.appendChild(newField);
+      k++; 
+      clickcountInput.value++;
+    });
+  
+    // Event removing fields
+    document.getElementById('dynamicFieldsContainer').addEventListener('click', function(e) {
+      if (e.target.classList.contains('removeField')) {
+        e.target.parentNode.remove();
+        k--; 
+      clickcountInput.value--;
+      }
+    });
+  </script>
+  
+</body>
 </html>
