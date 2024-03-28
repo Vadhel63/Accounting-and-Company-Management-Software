@@ -4,16 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
   <style>
     body {
       font-family: Arial, sans-serif;
       background-color: #f7f7f7;
       margin: 0;
-      padding: 20px;
+      padding: 0;
     }
 
-    h1, h2 {
-      color: #333;
+    .header {
+      background-color: #007bff;
+      color: #fff;
+      text-align: center;
+      padding: 10px 0;
     }
 
     .container {
@@ -26,10 +31,32 @@
       margin-bottom: 20px;
     }
 
-    .btn {
-      display: inline-block;
-      margin-right: 10px;
+    h1, h2 {
+      color: #333;
+      text-align: center;
+    }
+
+    .section {
+      margin-bottom: 30px;
+    }
+
+    .section h2 {
+      color: #007bff;
+      font-size: 24px;
       margin-bottom: 10px;
+    }
+
+    .section-content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin: 10px;
       padding: 10px 20px;
       background-color: #007bff;
       color: #fff;
@@ -38,6 +65,10 @@
       text-decoration: none;
       cursor: pointer;
       transition: background-color 0.3s ease;
+    }
+
+    .btn i {
+      margin-right: 10px;
     }
 
     .btn:hover {
@@ -53,48 +84,96 @@
       text-decoration: underline;
     }
 
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      padding: 10px 0;
+      background-color: #f7f7f7;
+    }
+
     .hr-style {
       border: none;
       border-top: 1px solid #ccc;
       margin: 20px 0;
     }
+
+    /* Logout button style */
+    .logout-btn {
+      background-color: #dc3545;
+    }
+
+    /* User name style */
+    .user-name {
+      font-weight: bold;
+    }
   </style>
 </head>
+{% if user.is_authenticated %}
 <body>
-  <div class="container">
-    <h1>Home</h1>
-    <hr class="hr-style">
-    <h2>Daily Usage</h2>
-    Create a bill, enter purchased products' bill, miscellaneous expenses,
-    payment received, or payment paid in the respected Pages <br /><br />
-    <a href="{% url 'salesbill' %}" class="btn">Billing Page</a>
-    <a href="{% url 'purchasebill' %}" class="btn">Purchase Page</a>
-    <a href="{% url 'P_Report' %}" class="btn">Production Report</a>
-    <a href="{% url 'Misc' %}" class="btn">Miscellaneous Expenses</a>
-    <a href="{% url 'paymentreceived' %}" class="btn">Payment Received</a>
-    <a href="{% url 'paymentpaid' %}" class="btn">Payment Paid</a>
-    <hr class="hr-style">
-    <h2>Accounting</h2>
-    The function required for clearing round of the company account<br /><br />
-    <a href="{% url 'creditors' %}" class="btn">Creditors</a>
-    <a href="{% url 'debtors' %}" class="btn">Debtors</a>
-    <a href="ledger.html" class="btn">Ledger</a>
-    <a href="summary.html" class="btn">Summary</a>
-    <hr class="hr-style">
-    <h2>Entry Page</h2>
-    Enter the details of the following in the respected Pages <br /><br />
-    <a href="{% url 'purchase' %}" class="btn">Purchase Party</a>
-    <a href="{% url 'sales' %}" class="btn">Sales Party</a>
-    <a href="{% url 'rawmaterial' %}" class="btn">Raw Material</a>
-    <a href="{% url 'finishgood' %}" class="btn">Finish Goods</a>
-    <hr class="hr-style">
-    <h2>Employees Page</h2>
-    Enter the details of Employee, track the work hours of the employee and
-    salary page the following in the respected Pages <br /><br />
-    <a href="{% url 'employee' %}" class="btn">Enter Employee Details</a>
-    <a href="{% url 'employeework' %}" class="btn">Employee Work Hour</a>
-    <a href="{% url 'employeesalary' %}" class="btn">Salary</a>
-    <hr class="hr-style">
+  <div class="header">
+    <h1>Welcome to PinnacleOps</h1>
+    <p class="user-name">Welcome, {{ user.username }}</p>
+    <a href="{% url 'logout' %}" class="btn logout-btn"><i class="fas fa-sign-out-alt"></i>Logout</a>
   </div>
+
+  <div class="container">
+    <!-- Entry Pages Section -->
+    <div class="section">
+      <h2>Entry Pages</h2>
+      <div class="section-content">
+        <a href="{% url 'purchase' %}" class="btn"><i class="fas fa-shopping-cart"></i>Purchase Party</a>
+        <a href="{% url 'sales' %}" class="btn"><i class="fas fa-store"></i>Sales Party</a>
+        <a href="{% url 'rawmaterial' %}" class="btn"><i class="fas fa-box"></i>Raw Material</a>
+        <a href="{% url 'finishgood' %}" class="btn"><i class="fas fa-cube"></i>Finish Goods</a>
+      </div>
+    </div>
+
+    <!-- Employee Pages Section -->
+    <div class="section">
+      <h2>Employee Pages</h2>
+      <div class="section-content">
+        <a href="{% url 'employee' %}" class="btn"><i class="fas fa-users"></i>Enter Employee Details</a>
+        <a href="{% url 'employeework' %}" class="btn"><i class="fas fa-clock"></i>Employee Work Hour</a>
+        <a href="{% url 'employeesalary' %}" class="btn"><i class="fas fa-money-bill-wave"></i>Salary</a>
+      </div>
+    </div>
+
+    <!-- Daily Usage Section -->
+    <div class="section">
+      <h2>Daily Usage</h2>
+      <div class="section-content">
+        <a href="{% url 'salesbill' %}" class="btn"><i class="fas fa-file-invoice-dollar"></i>Billing Page</a>
+        <a href="{% url 'purchasebill' %}" class="btn"><i class="fas fa-file-invoice"></i>Purchase Page</a>
+        <a href="{% url 'P_Report' %}" class="btn"><i class="fas fa-chart-bar"></i>Production Report</a>
+        <a href="{% url 'Misc' %}" class="btn"><i class="fas fa-receipt"></i>Miscellaneous Expenses</a>
+        <a href="{% url 'paymentreceived' %}" class="btn"><i class="fas fa-hand-holding-usd"></i>Payment Received</a>
+        <a href="{% url 'payment_paid' %}" class="btn"><i class="fas fa-money-check"></i>Payment Paid</a>
+      </div>
+    </div>
+
+    <!-- Accounting Section -->
+    <div class="section">
+      <h2>Accounting</h2>
+      <div class="section-content">
+        <a href="{% url 'creditors' %}" class="btn"><i class="fas fa-exclamation-circle"></i>Creditors</a>
+        <a href="{% url 'debtors' %}" class="btn"><i class="fas fa-exclamation-triangle"></i>Debtors</a>
+        <a href="ledger.html" class="btn"><i class="fas fa-book"></i>Ledger</a>
+        <a href="summary.html" class="btn"><i class="fas fa-chart-pie"></i>Summary</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    &copy; 2024 Millano. All rights reserved.
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 </body>
+{% else %}
+    <!-- Redirect to login if not authenticated -->
+    {% url 'login' as login_url %}
+    <script>
+        window.location.href = "{{ login_url }}";
+    </script>
+{% endif %}
 </html>

@@ -2,6 +2,28 @@ from django.db import models
 from datetime import datetime
 from django.utils import timezone
 from django.core.validators import RegexValidator,MinLengthValidator
+from django.contrib.auth.models import User
+from django.core.validators import MinLengthValidator
+from django.db import models
+
+class StaffProfile(models.Model):
+    GENDER_CHOICES = [
+        ('M', 'Male'),
+        ('F', 'Female'),
+        ('O', 'Other'),
+    ]
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, default=None, null=True)
+    name = models.CharField(max_length=255, default='Unknown')
+    position = models.CharField(max_length=255, default='HR_Manager')
+    email = models.EmailField(max_length=255, default='example@example.com')
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='O')
+    phone_number = models.CharField(
+        max_length=10,
+        validators=[MinLengthValidator(10)],
+        unique=True
+    )
+
 # Create your models here.
 class Sales_Party(models.Model):
     name = models.CharField(max_length=50)
@@ -59,6 +81,7 @@ class Production_Report(models.Model):
 class Inventory(models.Model):
     Item_name=models.CharField(max_length=55)
     Item_qty=models.IntegerField()
+
 
 
 

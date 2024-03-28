@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .inventory-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #007bff; /* Blue border */
+        }
+        .inventory-info {
+            margin-left: 10px;
+        }
+        .inventory-info p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Inventory Items</h2>
+
+        {% if inventory_items %}
+            {% for item in inventory_items %}
+                <div class="inventory-item">
+                    <div class="inventory-info">
+                        <p><strong>Item Name:</strong> {{ item.Item_name }}</p>
+                        <p><strong>Quantity:</strong> {{ item.Item_qty }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No inventory items available.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

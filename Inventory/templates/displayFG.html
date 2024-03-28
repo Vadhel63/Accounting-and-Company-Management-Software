@@ -45,21 +45,21 @@
 </head>
 <body>
 
-<h2>Raw Materials</h2>
+<h2>Finish Goods</h2>
 
 <table>
   <tr>
-    <th>Raw Material ID</th>
-    <th>Raw Material Name</th>
+    <th>Finish Goods ID</th>
+    <th>Finish Goods Name</th>
     <th>Actions</th>
   </tr>
-  {% for raw_m in raw %}
+  {% for raw_m in fg %}
   <tr>
     <td>{{ raw_m.id }}</td>
-    <td>{{ raw_m.RM_name }}</td>
+    <td>{{ raw_m.FG_name }}</td>
     <td>
-        <a class="btn btn-edit" href="{% url 'update_raw' raw_m.id %}">Edit</a>
-        <form action="{% url 'delete_raw' raw_m.id %}" method="post" style="display: inline;">
+        <a class="btn btn-edit" href="{% url 'update_fg' raw_m.id %}">Edit</a>
+        <form action="{% url 'delete_fg' raw_m.id %}" method="post" style="display: inline;">
             {% csrf_token %}
             <button type="submit" class="btn btn-delete">Delete</button>
         </form>

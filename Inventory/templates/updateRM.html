@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Raw Material</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button[type="reset"],
+        button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        button[type="reset"]:hover,
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Update Raw Material</h1>
+    <form action="{% url 'update_raw' raw_id=raw.id %}" method="post">
+        {% csrf_token %}
+        <label for="raw">Raw Material Name:</label>
+        <input type="text" id="raw" name="raw" value="{{ raw.RM_name }}" required><br><br>
+        <button type="reset">Reset</button>
+        <button type="submit">Update</button>
+    </form>
+</body>
+</html>

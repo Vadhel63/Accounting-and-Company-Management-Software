@@ -159,15 +159,57 @@ def displaysalesbill1(request):
         'purchase_bill_list': purchase_bill_list,
     })
             
+#------------inventory
 
+
+def display_inventory(request):
+    inventory_items = Inventory.objects.all()
+    return render(request, "display_inventory.html", {'inventory_items': inventory_items})
 def paymentreceived(request):
     return render(request,"paymentreceived.html")
 def paymentpaid(request):
-    return render(request,"paymentpaid.html")
+    purchase_parties=Purchase_Party.objects.all()
+    return render(request,"payment_paid.html",{
+        'purchase_parties':purchase_parties
+    })
 def creditors(request):
     return render(request,"creditors.html")
 def debtors(request):
     return render(request,"debtors.html")
 def Misc(request):
      return render(request,"miscelleneousexpanse.html")
-    
+
+
+def payment_paid(request):
+    if request.method == 'POST':
+        date = request.POST.get('date')
+        party_id = request.POST.get('party_id')
+        paid_date = request.POST.get('paid_date')
+        amt_paid = request.POST.get('amt_paid')
+
+        # Retrieve the purchase party
+        purchase_party = PurchaseBill.objects.get(id=party_id)
+
+        # Calculate the remaining amount
+        remaining_amt = purchase_party.Totall_amt - float(amt_paid)
+
+        # Create Payment_paid instance
+        payment = Payment_paid.objects.create(
+            date=date,
+            purchase_party=purchase_party,
+            purchase_party_name=purchase_party.party.name,
+            paid_date=paid_date,
+            amt_paid=amt_paid
+        )
+
+        # Update remaining amount in PurchaseBill
+        purchase_party.remaining_amt = remaining_amt
+        purchase_party.save()
+
+        # Redirect to payment success page
+        return redirect('payment_success')
+
+    return render(request, 'payment_paid.html')
+
+def payment_success(request):
+    return render(request, 'payment_success.html')

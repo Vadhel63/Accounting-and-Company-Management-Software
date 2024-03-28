@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Paid</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="date"], select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .error-message {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Make Payment</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="purchase_party">Select Purchase Party:</label>
+                <select name="purchase_party" id="purchase_party" required>
+                    <option value="">Select Purchase Party</option>
+                    {% for party in purchase_parties %}
+                        <option value="{{ party.id }}">{{ party.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="paid_date">Paid Date:</label>
+                <input type="date" name="paid_date" id="paid_date" required>
+            </div>
+            <div class="form-group">
+                <label for="amt_paid">Amount Paid:</label>
+                <input type="text" name="amt_paid" id="amt_paid" placeholder="Enter amount" required>
+            </div>
+            <button type="submit" class="btn">Submit Payment</button>
+            {% if error_message %}
+                <p class="error-message">{{ error_message }}</p>
+            {% endif %}
+        </form>
+    </div>
+</body>
+</html>
