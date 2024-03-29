@@ -1,39 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Employees Work</title>
-  </head>
-  <body>
-    <h1>Employee work hour</h1>
-    Punch Form:
-    <form action="" method="post">
-      <input type="date" name="" id="" />
-      <select name="" id="">
-        <option value="">~select~</option>
-      </select>
-      in time :
-      <input type="time" name="" id="" />
-      out time :
-      <input type="time" name="" id="" />
-      <br />
-      <button type="reset">Reset</button>
-      <button type="submit">Submit</button>
-    </form>
-    <hr />
-    <br />
-    Enquiry of the employee :
-    <br />
-    <form action="" method="post">
-      <input type="date" name="" id="" /> and
-      <input type="date" name="" id="" />
-      <select name="" id="">
-        <option value="">~select~</option>
-      </select>
-      <br />
-      <button type="reset">Reset</button>
-      <button type="submit">Submit</button>
-    </form>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employees Work</title>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.4.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #007bff;
+      text-align: center;
+    }
+
+    form {
+      max-width: 500px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    form label {
+      font-weight: bold;
+    }
+
+    input[type="date"],
+    input[type="time"],
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #ced4da;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    button[type="reset"] {
+      background-color: #dc3545;
+    }
+
+    button[type="submit"]:hover,
+    button[type="reset"]:hover {
+      opacity: 0.9;
+    }
+
+    hr {
+      border: 1px solid #ccc;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Employee Work Hour</h1>
+
+  <!-- Punch Form -->
+  <form action="" method="post">
+    <label for="punchDate">Punch Date:</label>
+    <input type="date" name="punchDate" id="punchDate" required>
+    
+    <label for="employeeSelect">Select Employee:</label>
+    <select name="employeeSelect" id="employeeSelect" required>
+      <option value="">~Select Employee~</option>
+      <!-- Add options for employees here -->
+    </select>
+    
+    <label for="inTime">In Time:</label>
+    <input type="time" name="inTime" id="inTime" required>
+    
+    <label for="outTime">Out Time:</label>
+    <input type="time" name="outTime" id="outTime" required>
+
+    <button type="reset">Reset</button>
+    <button type="submit">Submit</button>
+  </form>
+
+  <hr>
+
+  <!-- Employee Enquiry Form -->
+  <h3>Employee Enquiry</h3>
+  <form action="" method="post">
+    <label for="startDate">Start Date:</label>
+    <input type="date" name="startDate" id="startDate" required>
+    
+    <label for="endDate">End Date:</label>
+    <input type="date" name="endDate" id="endDate" required>
+    
+    <label for="enquirySelect">Select Employee:</label>
+    <select name="enquirySelect" id="enquirySelect" required>
+      <option value="">~Select Employee~</option>
+      <!-- Add options for employees here -->
+    </select>
+
+    <button type="reset">Reset</button>
+    <button type="submit">Submit</button>
+  </form>
+
+  <!-- Bootstrap JS (optional, only if you need JavaScript features) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.4.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>

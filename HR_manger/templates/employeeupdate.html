@@ -67,7 +67,7 @@
             <h5 class="card-title">Employees Details to be entered</h5>
           </div>
           <div class="card-body">
-            <form action="{%url 'employee1'%}" method="post">
+            <form action="{%url 'update_employee' e_id=employee.id %}" method="post">
               {% csrf_token %}
               <div class="form-group">
                 <label for="date">Date of Joining:</label>
@@ -113,7 +113,7 @@
 
               <div class="text-center">
                 <button type="reset" class="btn btn-secondary">Reset</button>
-                <button type="submit" class="btn btn-primary btn-submit">Submit</button>
+                <button type="update" class="btn btn-primary btn-submit">Submit</button>
               </div>
             </form>
           </div>

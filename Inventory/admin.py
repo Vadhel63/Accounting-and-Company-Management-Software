@@ -8,5 +8,5 @@ admin.site.register(RawMaterial)
 admin.site.register(WastageItem)
 admin.site.register(Inventory)
 admin.site.register(Production_Report)
-
+admin.site.register(StaffProfile)
 # Register your models here.

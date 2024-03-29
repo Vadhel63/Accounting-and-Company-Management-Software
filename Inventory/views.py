@@ -3,8 +3,6 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from Inventory.models import *
 # Create your views here.
-def index(request):
-    return render(request,"home.html")
 
 #sales_party-----------------------------
 def sales(request):
@@ -21,7 +19,8 @@ def DisplaySales(request):
 
 def displaysales1(request):
     sales=Sales_Party.objects.all()
-    return render(request,"displaysales.html",{
+    print(sales)
+    return render(request,"displaysales1.html",{
         "sales":sales
     })
 #---------------------------------
@@ -33,7 +32,7 @@ def productionreport(request):
 #purchase_party------------------------
 def displaypurchase1(request):
     purchase=Purchase_Party.objects.all()
-    return render(request,"displaypurchase.html",{
+    return render(request,"displaypurchase1.html",{
         "purchase":purchase
     })
 
@@ -52,21 +51,44 @@ def purchase(request):
     return render(request,"purchase.html")
 
 #rawmaterial-------------------------------
+from django.shortcuts import render, redirect
+from .models import RawMaterial
+
 def rawmaterial(request):
-    return render(request,"rawmaterial.html")
+    return render(request, "rawmaterial.html")
 
 def displayraw(request):
-    raw_name=request.POST['raw']
-    raw_qty=request.POST['raw1']
-    raw=RawMaterial.objects.create(RM_name=raw_name,RM_qty=raw_qty)
-    raw.save()
-    return redirect("displayraw1")
+    if request.method == 'POST':
+        raw_name = request.POST['raw']
+        raw = RawMaterial.objects.create(RM_name=raw_name)
+        raw.save()
+        return redirect("displayraw1")
+    else:
+        return redirect("rawmaterial")  # Redirect if accessed via GET
 
 def displayraw1(request):
-    raw=RawMaterial.objects.all()
-    return render(request,"displayRM.html",{
-        "raw":raw
+    raw = RawMaterial.objects.all()
+    return render(request, "displayRM.html", {
+        "raw": raw
     })
+
+def delete_raw(request, raw_id):
+    if request.method == 'POST':
+        raw = RawMaterial.objects.get(id=raw_id)
+        raw.delete()
+    return redirect("displayraw1")
+
+def update_raw(request, raw_id):
+    raw = RawMaterial.objects.get(id=raw_id)
+    if request.method == 'POST':
+        raw_name = request.POST['raw']
+        raw.RM_name = raw_name
+        raw.save()
+        return redirect("displayraw1")
+    else:
+        return render(request, "updateRM.html", {
+            "raw": raw
+        })
 #-----------------------------------
     
 def wastageitem(request):
@@ -76,14 +98,39 @@ def finishgood(request):
     return render(request,"finishgood.html")
 
 def displayfinishgoods(request):
-    finishgoodname=request.POST['fg']
-    finishgoodqty=request.POST['fg1']
-    f1=FinishGoods.objects.create(FG_name=finishgoodname,FG_qty=finishgoodqty)
-    f1.save()
-    return redirect("displayfinishgoods1")
+    if request.method == 'POST':
+        finishgoodname=request.POST['fg']
+        f1=FinishGoods.objects.create(FG_name=finishgoodname)
+        f1.save()
+        return redirect("displayfinishgoods1")
+    else:
+        return redirect("finishgood") 
+
+
+    
 
 def displayfinishgoods1(request):
-    f=FinishGoods.objects.all()
-    return render(request,"displayfinishgoods.html",{
-        'f':f
+    fg=FinishGoods.objects.all()
+    return render(request,"displayFG.html",{
+        'fg':fg
     })
+    
+def delete_fg(request,fg_id):
+    if request.method == 'POST':
+        fg = FinishGoods.objects.get(id=fg_id)
+        fg.delete()
+    return redirect("displayfinishgoods1")
+
+def update_fg(request,fg_id):
+    fg= FinishGoods.objects.get(id=fg_id)
+    if request.method == 'POST':
+        name = request.POST['fg']
+        fg.FG_name =name
+        fg.save()
+        return redirect("displayfinishgoods1")
+    else:
+        return render(request, "updateFG.html", {
+            "fg": fg
+        })
+    print(fg)
+#------------------------

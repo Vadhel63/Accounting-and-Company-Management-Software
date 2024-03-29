@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Raw Material</title>
+    <title>Update Raw Material</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -60,13 +60,13 @@
     </style>
 </head>
 <body>
-    <h1>Enter Raw Material</h1>
-    <form action="{% url 'displayraw' %}" method="post">
+    <h1>UpdateFinishGoods</h1>
+    <form action="{% url 'update_fg' fg_id=fg.id %}" method="post">
         {% csrf_token %}
-        <label for="raw">Raw Material Name:</label>
-        <input type="text" id="raw" name="raw" required><br><br>
+        <label for="raw">Finish Goods Name:</label>
+        <input type="text" id="fg" name="fg" value="{{ fg.FG_name }}" required><br><br>
         <button type="reset">Reset</button>
-        <button type="submit">Submit</button>
+        <button type="submit">Update</button>
     </form>
 </body>
 </html>

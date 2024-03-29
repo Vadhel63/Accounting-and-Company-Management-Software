@@ -1,41 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bill Page</title>
-  </head>
-  <body>
-    <h1>Bill page</h1>
-    <form action="post">
-      <input type="date" name="" id="" placeholder="Date" />
-      <br />
-      <select name="" id="">
-        <option value="">select name of seller</option>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bill Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    form {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    input[type="date"],
+    input[type="number"],
+    input[type="text"],
+    select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 8px 16px;
+      margin-right: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button[type="reset"] {
+      background-color: #f0ad4e;
+      color: #fff;
+    }
+
+    button[type="submit"] {
+      background-color: #5cb85c;
+      color: #fff;
+    }
+
+    button[type="reset"]:hover,
+    button[type="submit"]:hover {
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <h1>Bill Page</h1>
+  <form action="{% url 'displaysalesbill' %}" method="post">
+    {% csrf_token %}
+    <div class="bill-field">
+      <label for="date">Date</label>
+      <input type="date" id="date" name="date" required>
+    </div>
+    <div class="bill-field">
+      <label for="seller">Name of Seller party</label>
+      <select id="seller" name="seller" required>
+        <option value="">Select Name of Seller party</option>
+        {% for seller in sellers %}
+          <option value="{{ seller.id }}">{{ seller.name }}</option>
+        {% endfor %}
       </select>
-      <br />
-      <br />
-      <select name="" id="">
-        <option value="">Name of the Finish Goods</option>
-      </select>
-      <input type="number" name="" id="" placeholder="No. of piece" />
-      <input type="text" name="" id="" placeholder="Amount of single piece" />
-      <br />
-      <select name="" id="">
-        <option value="">Name of the Finish Goods</option>
-      </select>
-      <input type="number" name="" id="" placeholder="No. of piece" />
-      <input type="text" name="" id="" placeholder="Amount of single piece" />
-      <br />
-      <select name="" id="">
-        <option value="">Name of the Finish Goods</option>
-      </select>
-      <input type="number" name="" id="" placeholder="No. of piece" />
-      <input type="text" name="" id="" placeholder="Amount of single piece" />
-      <br />
-      <br />
+    </div>
+
+    <!-- Dynamic Fields -->
+    <div id="dynamicFieldsContainer">
+      <div class="bill-field">
+        <input type="hidden" id="clickcount" name="clickcount" value="1" >
+        <label for="product0">Name of the Finish Goods</label>
+        <select id="product0" name="product0" required>
+          {% for product in products %}
+            <option value="{{ product.FG_name }}">{{ product.FG_name }}</option>
+          {% endfor %}
+        </select>
+        <input type="number" id="piece0" name="piece0" placeholder="No. of pieces" required>
+        <input type="text" id="amount0" name="amount0" placeholder="Amount of single piece" required>
+        <button type="button" class="removeField">Remove</button>
+      </div>
+    </div>
+
+    <button type="button" id="addMore">Add More</button>
+    <div class="button-group">
       <button type="reset">Reset</button>
       <button type="submit">Submit</button>
-    </form>
-  </body>
+    </div>
+  </form>
+
+  <script>
+    // JavaScript for adding/removing dynamic fields
+    var fieldIndex = 1;
+
+    document.getElementById('addMore').addEventListener('click', function() {
+      var container = document.getElementById('dynamicFieldsContainer');
+      var newField = document.createElement('div');
+      var clickcountInput=document.getElementById('clickcount');
+      newField.className = 'bill-field';
+      newField.innerHTML = `
+        <label for="product${fieldIndex}">Name of the Finish Goods</label>
+        <select id="product${fieldIndex}" name="product${fieldIndex}" required>
+          {% for product in products %}
+            <option value="{{ product.FG_name }}">{{ product.FG_name }}</option>
+          {% endfor %}
+        </select>
+        <input type="number" id="piece${fieldIndex}" name="piece${fieldIndex}" placeholder="No. of pieces" required>
+        <input type="text" id="amount${fieldIndex}" name="amount${fieldIndex}" placeholder="Amount of single piece" required>
+        <button type="button" class="removeField">Remove</button>
+      `;
+      container.appendChild(newField);
+      fieldIndex++;
+      clickcount.value++;
+    });
+
+    document.getElementById('dynamicFieldsContainer').addEventListener('click', function(e) {
+      if (e.target.classList.contains('removeField')) {
+        e.target.parentNode.remove();
+        fieldIndex--;
+        clickcount.value--;
+      }
+    });
+  </script>
+</body>
 </html>
