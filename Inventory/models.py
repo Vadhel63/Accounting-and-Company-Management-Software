@@ -43,6 +43,9 @@ class Sales_Party(models.Model):
     )
     location = models.CharField(max_length=255)
     company_owner = models.CharField(max_length=50)
+    def __str__(self):
+        return str(self.name)
+    
 class Purchase_Party(models.Model):
     name = models.CharField(max_length=50)
     phone_number = models.CharField(
@@ -61,6 +64,8 @@ class Purchase_Party(models.Model):
     )
     location = models.CharField(max_length=255)
     company_owner = models.CharField(max_length=50)
+    def __str__(self):
+        return str(self.name)
 
 
 class FinishGoods(models.Model):
