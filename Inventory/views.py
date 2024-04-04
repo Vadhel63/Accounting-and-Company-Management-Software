@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from Inventory.models import *
 # Create your views here.
+import json
 
 #sales_party-----------------------------
 def sales(request):
@@ -25,10 +26,25 @@ def displaysales1(request):
     })
 #---------------------------------
 def productionreport(request):
-    return render(request, "P_Report.html")
+    # Assuming you have FinishGoods and RawMaterial models
+    fg = FinishGoods.objects.all()
+    raw = RawMaterial.objects.all()
 
+    return render(request, 'p_Report.html', {'fg': fg, 'raw': raw})
 
-    
+def DisplayPR(request):
+    date=request.POST['date']
+    n1=request.POST.get('clickcount1')
+    n2=request.POST.get('clickcount2')
+    for i in range(int(n1)):
+       f = request.POST.get('fg' + str(i))
+       piece1 = request.POST.get('fpiece' + str(i))
+       
+    for i in range(int(n2)):
+       r = request.POST.get('r_name' + str(i))
+       piece2= request.POST.get('rpiece' + str(i))
+    p1=Production_Report(genrate_date=date,RM_qty=piece2,FG_qty=piece1,RM=r,FG=f)
+    p1.save()
 #purchase_party------------------------
 def displaypurchase1(request):
     purchase=Purchase_Party.objects.all()
@@ -61,7 +77,7 @@ def displayraw(request):
     if request.method == 'POST':
         raw_name = request.POST['raw']
         raw = RawMaterial.objects.create(RM_name=raw_name)
-        raw.save()
+        Inventory.objects.create(Item_name=raw_name,Item_qty=0)
         return redirect("displayraw1")
     else:
         return redirect("rawmaterial")  # Redirect if accessed via GET

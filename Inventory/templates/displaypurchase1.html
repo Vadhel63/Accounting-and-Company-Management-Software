@@ -99,6 +99,16 @@
       text-decoration: none;
       cursor: pointer;
     }
+
+    /* New styles for modal content */
+    .modal-content h1 {
+      color: #007bff;
+      margin-bottom: 10px;
+    }
+
+    .modal-content p {
+      margin-bottom: 5px;
+    }
   </style>
 </head>
 <body>
@@ -111,9 +121,9 @@
     <div class="card">
       <div class="container">
         <div class="company-info-box">
-          <h2>Company Name: {{ purchase.name }}</h2>
-          <p><strong>Company Owner:</strong> {{ purchase.company_owner }}</p>
-          <p><strong>Company Id:</strong> {{ purchase.id }}</p>
+          <h2>{{ purchase.name }}</h2>
+          <p><strong>Owner:</strong> {{ purchase.company_owner }}</p>
+          <p><strong>ID:</strong> {{ purchase.id }}</p>
           <p><strong>Location:</strong> {{ purchase.location }}</p>
           <p><strong>Phone:</strong> {{ purchase.phone_number }}</p>
           <p><strong>GST No:</strong> {{ purchase.gst_number }}</p>
@@ -133,14 +143,23 @@
 </div>
 
 <script>
-  // Function to open modal and display card details
+  // Function to open modal and display purchase details
   function openModal(id) {
     var modal = document.getElementById('myModal');
     modal.style.display = "block";
 
     // Fetch details based on ID, for now, just display the ID
     var modalContent = document.getElementById('modalContent');
-    modalContent.innerHTML = "<h1>Purchase Details</h1><p>Display details for ID: " + id + "</p>";
+    modalContent.innerHTML = `
+      <h1>Company Purchase Details</h1>
+      <p><strong>ID:</strong> ${id}</p>
+      <p><strong>Name:</strong> Example Company</p>
+      <p><strong>Owner:</strong> John Doe</p>
+      <p><strong>Location:</strong> City, Country</p>
+      <p><strong>Phone:</strong> +1234567890</p>
+      <p><strong>GST No:</strong> ABC123456789</p>
+      <p><strong>Other Details:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet justo eget libero fermentum pellentesque. Phasellus in pulvinar quam.</p>
+    `;
   }
 
   // Function to close modal

@@ -3,7 +3,35 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from Inventory.models import *
 from Accountant.models import *
-# Create your views here.
+from .models import Purchase_Party, Payment_paid
+from .forms import PaymentForm
+
+def make_payment(request):
+    if request.method == 'POST':
+        form = PaymentForm(request.POST)
+        if form.is_valid():
+            purchase_party = form.cleaned_data['purchase_party']
+            paid_date = form.cleaned_data['paid_date']
+            amt_paid = form.cleaned_data['amt_paid']
+
+            # Create Payment_paid object and save to database
+            payment = Payment_paid(
+                purchase_party=purchase_party,
+                purchase_party_name=purchase_party.name,
+                paid_date=paid_date,
+                amt_paid=amt_paid
+            )
+            payment.save()
+
+            # Redirect to a success page or wherever needed
+            return redirect('payment_success')
+    else:
+        form = PaymentForm()
+
+    return render(request, 'make_payment.html', {'form': form})
+
+def payment_success(request):
+    return render(request, 'payment_success.html')
 #---------------purchasebill---------------
 def purchasebill(request):
     purchase=Purchase_Party.objects.all()
@@ -26,23 +54,15 @@ def displaypurchasebill(request):
         amount = request.POST.get('amount' + str(i))
         total_amount += int(piece) * int(amount)
 
-        if Inventory.objects.filter(Item_name=r_name).exists() and purchase_item.objects.filter(purchase=p2, RM_name=r_name).exists():
+        if  purchase_item.objects.filter(purchase=p2, RM_name=r_name).exists():
             i1 = Inventory.objects.get(Item_name=r_name)
             i1.Item_qty += int(piece)
             i1.save()
             p3 = purchase_item.objects.get(RM_name=r_name, purchase=p2, inventory=i1)
             p3.RM_qty += int(piece)
             p3.save()
-        elif Inventory.objects.filter(Item_name=r_name).exists():
-            i1 = Inventory.objects.get(Item_name=r_name)
-            i1.Item_qty += int(piece)
-            i1.save()
-            p3 = purchase_item(RM_name=r_name, RM_qty=piece, RM_price=amount, purchase=p2, inventory=i1)
-            p3.save()
         else:
-            i1 = Inventory(Item_name=r_name, Item_qty=piece)
-            i1.save()
-            p3 = purchase_item(RM_name=r_name, RM_qty=piece, RM_price=amount, purchase=p2, inventory=i1)
+            p3 = purchase_item(RM_name=r_name, RM_qty=piece, RM_price=amount, purchase=p2)
             p3.save()
 
     p2.Totall_amt = total_amount
@@ -50,14 +70,17 @@ def displaypurchasebill(request):
     return redirect("displaypurchasebill1")
 
         
+from django.shortcuts import render
+from .models import purchase_item
+
 def displaypurchasebill1(request):
     # Get all purchase items
-    purchase_items = purchase_item.objects.all()
-
+    purchase_items = purchase_item.objects.all() 
+    
     # Dictionary to store unique bills and corresponding items
     unique_bills = {}
 
-    # Iterate through purchase items to group them by purchase bill ID
+    # Iterate through purchase items to group them by purchase bill ID and calculate subtotal
     for item in purchase_items:
         if item.purchase.id not in unique_bills:
             unique_bills[item.purchase.id] = {
@@ -65,13 +88,20 @@ def displaypurchasebill1(request):
                 'party_name': item.purchase.party.name,
                 'date_of_genrate': item.purchase.date_of_genrate,
                 'total_amount': item.purchase.Totall_amt,
-                'items': []
+                'items': [],
+                'subtotal': 0  # Initialize subtotal for each bill
             }
 
+        # Calculate subtotal for each item and add it to the bill's subtotal
+        subtotal_item = item.RM_qty * item.RM_price
+        unique_bills[item.purchase.id]['subtotal'] += subtotal_item
+
+        # Add item details to the bill's items list
         unique_bills[item.purchase.id]['items'].append({
             'RM_name': item.RM_name,
             'RM_qty': item.RM_qty,
-            'RM_price': item.RM_price
+            'RM_price': item.RM_price,
+            'subtotal_item': subtotal_item  # Include subtotal for the item
         })
 
     # Convert the dictionary values to a list for easier iteration in the template

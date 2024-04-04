@@ -78,8 +78,6 @@ class Production_Report(models.Model):
     genrate_date=models.DateTimeField()
     RM=models.ForeignKey(RawMaterial,on_delete=models.CASCADE)
     RM_qty=models.IntegerField(default=2)
-    WI=models.ForeignKey(WastageItem,on_delete=models.CASCADE)
-    WI_qty=models.IntegerField(default=0)
     FG=models.ForeignKey(FinishGoods,on_delete=models.CASCADE)
     FG_qty=models.IntegerField(default=1)
 

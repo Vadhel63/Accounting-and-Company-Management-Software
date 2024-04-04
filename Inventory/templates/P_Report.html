@@ -1,75 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Production Report</title>
-  </head>
-  <body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Production Report</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 600px;
+      width: 90%;
+      padding: 30px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .form-label {
+      font-weight: bold;
+      color: #333;
+    }
+
+    .form-select, .form-control {
+      margin-bottom: 20px;
+      border-radius: 4px;
+      padding: 10px;
+      width: 100%;
+      border: 1px solid #ccc;
+    }
+
+    .btn-container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+
+    .btn-secondary {
+      background-color: #6c757d;
+      color: #fff;
+      border: none;
+    }
+
+    .btn-secondary:hover {
+      background-color: #495057;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .form-group input[type="date"],
+    .form-group input[type="number"],
+    .form-group select {
+      width: calc(100% - 22px);
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      background-color: #f9f9f9;
+    }
+
+    /* Add some styling for form groups and buttons when they are hovered */
+    .form-group:hover,
+    .btn:hover {
+      transform: translateY(-2px);
+      transition: transform 0.2s ease;
+    }
+
+    /* Style for the added fields */
+    .added-field {
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 6px;
+      margin-top: 10px;
+      background-color: #f9f9f9;
+    }
+
+    /* Style for the delete button in added fields */
+    .delete-field-btn {
+      background-color: #dc3545;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+
+    .delete-field-btn:hover {
+      background-color: #c82333;
+    }
+
+    /* Style for the submit button */
+    .btn-submit {
+      background-color: #28a745; /* Green color */
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn-submit:hover {
+      background-color: #218838; /* Darker green on hover */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
     <h1>Production Report</h1>
 
-    <form action="post">
-      <input type="date" name="" id="" placeholder="Date" />
-      <br />
-      Raw Material Required :
-      <br />
-      <br />
-      <select name="" id="">
-        <option value="">Name of the Raw Material</option>
-      </select>
-      <input type="number" name="" id="" placeholder="No. of piece" />
-      <br />
-      <select name="" id="">
-        <option value="">Name of the Raw Material</option>
-      </select>
-      <input type="number" name="" id="" placeholder="No. of piece" />
-      <br />
-      <select name="" id="">
-        <option value="">Name of the Raw Material</option>
-      </select>
-      <input type="number" name="" id="" placeholder="No. of piece" />
-      <br />
-      <br />
-      Finish Goods Produced :
-      <br />
-      <br />
-      <select name="" id="">
-        <option value="">Name of the Raw Material</option>
-      </select>
-      <input type="number" name="" id="" placeholder="No. of piece" />
-      <br />
-      <select name="" id="">
-        <option value="">Name of the Raw Material</option>
-      </select>
-      <input type="number" name="" id="" placeholder="No. of piece" />
-      <br />
-      <select name="" id="">
-        <option value="">Name of the Raw Material</option>
-      </select>
-      <input type="number" name="" id="" placeholder="No. of piece" />
-      <br />
-      <br />
-      Wastage Item :
-      <br />
-      <br />
-      <select name="" id="">
-        <option value="">Name of the Raw Material</option>
-      </select>
-      <input type="number" name="" id="" placeholder="No. of piece" />
-      <br />
-      <select name="" id="">
-        <option value="">Name of the Raw Material</option>
-      </select>
-      <input type="number" name="" id="" placeholder="No. of piece" />
-      <br />
-      <select name="" id="">
-        <option value="">Name of the Raw Material</option>
-      </select>
-      <input type="number" name="" id="" placeholder="No. of piece" />
-      <br />
-      <br />
-      <button type="reset">Reset</button>
-      <button type="submit">Submit</button>
+    <form action="{% url 'DisplayPR' %}" method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="date" class="form-label">Date</label>
+        <input type="date" name="date" id="date" required />
+      </div>
+
+      <div id="fgContainer" class="added-field">
+        <div class="fg">
+
+          <input type="hidden" id="clickcount1" name="clickcount1" value="1" >
+          <div class="form-group">
+
+            <label for="fg0" class="form-label">Finish Goods Name</label>
+            <select class="form-select" id="fg0" name="fg0" required>
+              {% for f in fg %}
+                <option value="{{ f.FG_name }}">{{ f.FG_name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="fpiece0" class="form-label">No. of Pieces</label>
+            <input type="number" name="fpiece0" id="fpiece0" placeholder="Enter quantity" required />
+          </div>
+        </div>
+      </div>
+      
+      <button type="button" class="btn btn-primary" id="addMoreFG">Add More Finish Goods</button>
+      
+      <div id="rawContainer" class="added-field">
+        <div class="raw">
+          <input type="hidden" id="clickcount2" name="clickcount2" value="1" >
+          <div class="form-group">
+            <label for="r_name0" class="form-label">Raw Material Name</label>
+            <select class="form-select" id="r_name0" name="r_name0" required>
+              {% for r in raw %}
+                <option value="{{ r.RM_name }}">{{ r.RM_name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="rpiece0" class="form-label">No. of Pieces</label>
+            <input type="number" name="rpiece0" id="rpiece0" placeholder="Enter quantity" required />
+          </div>
+        </div>
+      </div>
+      
+      <button type="button" class="btn btn-primary" id="addMoreRaw">Add More Raw Material</button>
+      
+      <div class="btn-container">
+        <button type="reset" class="btn btn-secondary">Reset</button>
+        <button type="submit" class="btn btn-submit">Submit</button>
+      </div>
     </form>
-  </body>
+  </div>
+
+  <script>
+    var fgCount = 1;
+    var rawCount = 1;
+
+    document.getElementById('addMoreFG').addEventListener('click', function() {
+      var clickcountInput = document.getElementById('clickcount1');
+      var container = document.getElementById('fgContainer');
+      var newField = document.createElement('div');
+      newField.classList.add('added-field', 'fg');
+      newField.innerHTML = `
+        <input type="hidden" id="clickcount1" name="clickcount1" value="${fgCount}" >
+        <div class="form-group">
+          <label for="fg${fgCount}" class="form-label">Finish Goods Name</label>
+          <select class="form-select" id="fg${fgCount}" name="fg${fgCount}" required>
+            {% for f in fg %}
+              <option value="{{ f.FG_name }}">{{ f.FG_name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="fpiece${fgCount}" class="form-label">No. of Pieces</label>
+          <input type="number" name="fpiece${fgCount}" id="fpiece${fgCount}" placeholder="Enter quantity" required />
+        </div>
+        <button type="button" class="delete-field-btn" onclick="deleteField(this)">Delete</button>
+      `;
+      container.appendChild(newField);
+      fgCount++; 
+      clickcountInput.value = fgCount;
+    });
+
+    document.getElementById('addMoreRaw').addEventListener('click', function() {
+      var clickcountInput = document.getElementById('clickcount2');
+      var container = document.getElementById('rawContainer');
+      var newField = document.createElement('div');
+      newField.classList.add('added-field', 'raw');
+      newField.innerHTML = `
+        <input type="hidden" id="clickcount2" name="clickcount2" value="${rawCount}" >
+        <div class="form-group">
+          <label for="r_name${rawCount}" class="form-label">Raw Material Name</label>
+          <select class="form-select" id="r_name${rawCount}" name="r_name${rawCount}" required>
+            {% for r in raw %}
+              <option value="{{ r.RM_name }}">{{ r.RM_name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="rpiece${rawCount}" class="form-label">No. of Pieces</label>
+          <input type="number" name="rpiece${rawCount}" id="rpiece${rawCount}" placeholder="Enter quantity" required />
+        </div>
+        <button type="button" class="delete-field-btn" onclick="deleteField(this)">Delete</button>
+      `;
+      container.appendChild(newField);
+      rawCount++; 
+      clickcountInput.value = rawCount;
+    });
+
+    function deleteField(element) {
+      element.parentNode.remove();
+    }
+  </script>
+</body>
 </html>

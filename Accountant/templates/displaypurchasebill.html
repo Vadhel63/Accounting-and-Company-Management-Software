@@ -66,12 +66,32 @@
             text-decoration: none;
             cursor: pointer;
         }
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .subtotal {
+            text-align: right;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>Purchase Bill Items</h2>
 
+        <!-- Django Template for Purchase Bill List -->
         {% for bill in purchase_bill_list %}
             <div class="purchase-item" onclick="openModal('{{ bill.bill_id }}')">
                 <div class="purchase-info">
@@ -80,12 +100,28 @@
                     <p><strong>Date:</strong> {{ bill.date_of_genrate }}</p>
                     <p><strong>Total Amount:</strong> {{ bill.total_amount }}</p>
                     <h3>Raw Materials:</h3>
-                    {% for item in bill.items %}
-                        <p><strong>Name:</strong> {{ item.RM_name }}</p>
-                        <p><strong>Quantity:</strong> {{ item.RM_qty }}</p>
-                        <p><strong>Price:</strong> {{ item.RM_price }}</p>
-                        <!-- Add other fields as needed -->
-                    {% endfor %}
+                    <table>
+                        <thead>
+                            <th>Raw Material</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Sub Total</th>
+                        </thead>
+                        <tbody>
+                            {% for item in bill.items %}
+                                <tr>
+                                    <td>{{ item.RM_name }}</td>
+                                    <td>{{ item.RM_qty }}</td>
+                                    <td>{{ item.RM_price }}</td>
+                                    <td class="subtotal">{{ item.subtotal_item }}</td>
+                                </tr>
+                            {% endfor %}
+                            <tr>
+                                <td colspan="3">Total Amount:</td>
+                                <td class="subtotal">{{ bill.subtotal }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         {% endfor %}
@@ -99,6 +135,7 @@
         </div>
     </div>
 
+    <!-- JavaScript for Modal -->
     <script>
         // Function to open modal and display card details
         function openModal(id) {

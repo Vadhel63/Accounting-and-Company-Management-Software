@@ -56,6 +56,18 @@
     button[type="submit"]:hover {
       background-color: #0056b3;
     }
+    .Dpp{
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    .Dpp:hover{
+      background-color: #0056b3;
+    }
   </style>
 </head>
 <body>
@@ -68,11 +80,11 @@
     <label for="c_name">Company Name:</label>
     <input type="text" name="c_name" id="c_name" placeholder="Company Name" required/><br />
 
-    <label for="c_no">Company Number:</label>
-    <input type="text" name="c_no" id="c_no" placeholder="Company Number" required/><br />
+    <label for="c_no">Company Contact Number:</label>
+    <input type="text" name="c_no" id="c_no" placeholder="Company Number" pattern="[0-9]{10}"required/><br />
 
     <label for="gst_no">GST Number:</label>
-    <input type="text" name="gst_no" id="gst_no" placeholder="GST Number" required/><br />
+    <input type="text" name="gst_no" id="gst_no" placeholder="GST Number" pattern="[0-9]{15}"required/><br />
 
     <label for="location">Location:</label>
     <input type="text" name="location" id="location" placeholder="Location" required/><br />
@@ -82,6 +94,7 @@
 
     <button type="reset">Reset</button>
     <button type="submit">Submit</button>
+    <p class="Dpp"><a href="{%url 'displaypurchase1'%}">DisplayPurchase_party</p>
   </form>
 </body>
 </html>

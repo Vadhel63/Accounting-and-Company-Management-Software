@@ -83,6 +83,52 @@
     .btn {
       margin-bottom: 10px;
     }
+
+    /* Style for custom buttons */
+    .custom-btn {
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .custom-btn-primary {
+      background-color: #5cb85c; /* Green color */
+      color: white;
+      border: none;
+    }
+
+    .custom-btn-primary:hover {
+      background-color: #4cae4c; /* Darker green on hover */
+    }
+
+    .custom-btn-secondary {
+      background-color: #6c757d;
+      color: white;
+      border: none;
+    }
+
+    .custom-btn-secondary:hover {
+      background-color: #495057;
+    }
+
+    /* Additional styling for view purchases link */
+    .view-purchases {
+      display: inline-block;
+      margin-top: 10px;
+      color: #333;
+      text-decoration: none;
+      padding: 10px 20px;
+      background-color: #007bff;
+      border-radius: 20px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .view-purchases:hover {
+      background-color: #0056b3;
+      color: white;
+    }
   </style>
 </head>
 <body>
@@ -129,20 +175,21 @@
         </div>
       </div>
 
-      <button type="button" class="btn btn-primary mt-3" id="addMore">Add More</button>
+      <button type="button" class="btn custom-btn custom-btn-primary mt-3" id="addMore">Add More</button>
       
       <div class="mt-3">
-        <button type="reset" class="btn btn-secondary">Reset</button>
-        <button type="submit" class="btn btn-success">Submit</button>
+        <button type="reset" class="btn custom-btn custom-btn-secondary">Reset</button>
+        <button type="submit" class="btn custom-btn custom-btn-primary">Submit</button>
+        <!-- View Purchases Button -->
+        <a href="{% url 'displaypurchasebill1' %}" class="btn view-purchases">View Purchases</a>
       </div>
     </form>
   </div>
 
-  <!-- Bootstrap JS (atyre jarur nahi) -->
+  <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.4.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
-    // J
     var k = 1;
     document.getElementById('addMore').addEventListener('click', function() {
       var clickcountInput=document.getElementById('clickcount');
