@@ -61,6 +61,7 @@ def displayraw(request):
     if request.method == 'POST':
         raw_name = request.POST['raw']
         raw = RawMaterial.objects.create(RM_name=raw_name)
+        Inventory.objects.create(Item_name=raw_name,Item_qty=0)
         raw.save()
         return redirect("displayraw1")
     else:
@@ -101,6 +102,7 @@ def displayfinishgoods(request):
     if request.method == 'POST':
         finishgoodname=request.POST['fg']
         f1=FinishGoods.objects.create(FG_name=finishgoodname)
+        Inventory.objects.create(Item_name=finishgoodname,Item_qty=0)
         f1.save()
         return redirect("displayfinishgoods1")
     else:

@@ -70,8 +70,14 @@ class Purchase_Party(models.Model):
 
 class FinishGoods(models.Model):
     FG_name=models.CharField(max_length=50)
+    def __str__(self):
+        return str(self.FG_name)
+    
 class RawMaterial(models.Model):
     RM_name=models.CharField(max_length=50)
+    def __str__(self):
+        return str(self.RM_name)
+    
 class WastageItem(models.Model):
     WI_name=models.CharField(max_length=50)
 class Production_Report(models.Model):
@@ -86,6 +92,8 @@ class Production_Report(models.Model):
 class Inventory(models.Model):
     Item_name=models.CharField(max_length=55)
     Item_qty=models.IntegerField()
+    def __str__(self):
+        return str(self.Item_name)
 
 
 

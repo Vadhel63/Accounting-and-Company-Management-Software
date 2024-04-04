@@ -6,7 +6,23 @@
     <title>Debtors</title>
   </head>
   <body>
+    {% load humanize %}
     <h1>Debtors</h1>
-    This page shows the list of all Debtors.
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Party Name</th>
+          <th>Debtor Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for ii in debitors%}
+        <tr>
+          <td>{{ii.partyName}}</td>
+          <td>{{ii.difference|floatformat:2|intcomma:"l10n"}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </body>
 </html>

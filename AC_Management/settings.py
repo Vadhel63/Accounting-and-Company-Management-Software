@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap5',
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [
@@ -79,24 +80,24 @@ WSGI_APPLICATION = 'AC_Management.wsgi.application'
 
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'AC_Management',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',  # Or the IP address of your MySQL server
-        'PORT': '3306',       # MySQL's default port
-    }
-}
-
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'AC_Management',
+#         'USER': 'root',
+#         'PASSWORD': '',
+#         'HOST': 'localhost',  # Or the IP address of your MySQL server
+#         'PORT': '3306',       # MySQL's default port
 #     }
 # }
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 
 # Password validation

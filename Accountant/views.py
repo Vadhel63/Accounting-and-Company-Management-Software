@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from Inventory.models import *
 from Accountant.models import *
+from django.db.models import Sum
 # Create your views here.
 #---------------purchasebill---------------
 def purchasebill(request):
@@ -25,26 +26,28 @@ def displaypurchasebill(request):
         piece = request.POST.get('piece' + str(i))
         amount = request.POST.get('amount' + str(i))
         total_amount += int(piece) * int(amount)
-
-        if Inventory.objects.filter(Item_name=r_name).exists() and purchase_item.objects.filter(purchase=p2, RM_name=r_name).exists():
-            i1 = Inventory.objects.get(Item_name=r_name)
-            i1.Item_qty += int(piece)
-            i1.save()
-            p3 = purchase_item.objects.get(RM_name=r_name, purchase=p2, inventory=i1)
-            p3.RM_qty += int(piece)
-            p3.save()
-        elif Inventory.objects.filter(Item_name=r_name).exists():
-            i1 = Inventory.objects.get(Item_name=r_name)
-            i1.Item_qty += int(piece)
-            i1.save()
-            p3 = purchase_item(RM_name=r_name, RM_qty=piece, RM_price=amount, purchase=p2, inventory=i1)
-            p3.save()
-        else:
-            i1 = Inventory(Item_name=r_name, Item_qty=piece)
-            i1.save()
-            p3 = purchase_item(RM_name=r_name, RM_qty=piece, RM_price=amount, purchase=p2, inventory=i1)
-            p3.save()
-
+        purchase_item.objects.create(purchase=p2,RM_name=r_name,RM_qty=piece,RM_price=amount)
+        inven = Inventory.objects.get(Item_name=r_name)
+        inven.Item_qty+=int(piece)
+        inven.save()
+        # if Inventory.objects.filter(Item_name=r_name).exists() and purchase_item.objects.filter(purchase=p2, RM_name=r_name).exists():
+        #     i1 = Inventory.objects.get(Item_name=r_name)
+        #     i1.Item_qty += int(piece)
+        #     i1.save()
+        #     p3 = purchase_item.objects.get(RM_name=r_name, purchase=p2, inventory=i1)
+        #     p3.RM_qty += int(piece)
+        #     p3.save()
+        # elif Inventory.objects.filter(Item_name=r_name).exists():
+        #     i1 = Inventory.objects.get(Item_name=r_name)
+        #     i1.Item_qty += int(piece)
+        #     i1.save()
+        #     p3 = purchase_item(RM_name=r_name, RM_qty=piece, RM_price=amount, purchase=p2, inventory=i1)
+        #     p3.save()
+        # else:
+        #     i1 = Inventory(Item_name=r_name, Item_qty=piece)
+        #     i1.save()
+        #     p3 = purchase_item(RM_name=r_name, RM_qty=piece, RM_price=amount, purchase=p2, inventory=i1)
+        #     p3.save()
     p2.Totall_amt = total_amount
     p2.save()
     return redirect("displaypurchasebill1")
@@ -105,26 +108,31 @@ def displaysalesbill(request):
         piece = request.POST.get('piece' + str(i))
         amount = request.POST.get('amount' + str(i))
         total_amount += int(piece) * int(amount)
-
-        if Inventory.objects.filter(Item_name=r_name).exists() and sales_item.objects.filter(sales=p2, FG_name=r_name).exists():
-            i1 = Inventory.objects.get(Item_name=r_name)
-            i1.Item_qty += int(piece)
-            i1.save()
-            p3 = sales_item.objects.get(FG_name=r_name, sales=p2, inventory=i1)
-            p3.FG_qty += int(piece)
-            p3.save()
-        elif Inventory.objects.filter(Item_name=r_name).exists():
-            i1 = Inventory.objects.get(Item_name=r_name)
-            i1.Item_qty += int(piece)
-            i1.save()
-            p3 = sales_item(FG_name=r_name, FG_qty=piece, FG_price=amount, sales=p2, inventory=i1)
-            p3.save()
-        else:
-            i1 = Inventory(Item_name=r_name, Item_qty=piece)
-            i1.save()
-            p3 = sales_item(FG_name=r_name, FG_qty=piece, FG_price=amount, sales=p2, inventory=i1)
-            p3.save()
-
+        sales_item.objects.create(sales=p2,FG_name=r_name,FG_qty=piece,FG_price=amount)
+        inven = Inventory.objects.get(Item_name=r_name)
+        if inven.Item_qty - int(piece) <0:
+            p2.delete()
+            return HttpResponse("Item Can not be bought as You have not enough quantity of it")
+        inven.Item_qty-=int(piece)
+        inven.save()
+        # if Inventory.objects.filter(Item_name=r_name).exists() and sales_item.objects.filter(sales=p2, FG_name=r_name).exists():
+        #     i1 = Inventory.objects.get(Item_name=r_name)
+        #     i1.Item_qty += int(piece)
+        #     i1.save()
+        #     p3 = sales_item.objects.get(FG_name=r_name, sales=p2, inventory=i1)
+        #     p3.FG_qty += int(piece)
+        #     p3.save()
+        # elif Inventory.objects.filter(Item_name=r_name).exists():
+        #     i1 = Inventory.objects.get(Item_name=r_name)
+        #     i1.Item_qty += int(piece)
+        #     i1.save()
+        #     p3 = sales_item(FG_name=r_name, FG_qty=piece, FG_price=amount, sales=p2, inventory=i1)
+        #     p3.save()
+        # else:
+        #     i1 = Inventory(Item_name=r_name, Item_qty=piece)
+        #     i1.save()
+        #     p3 = sales_item(FG_name=r_name, FG_qty=piece, FG_price=amount, sales=p2, inventory=i1)
+        #     p3.save()
     p2.Totall_amt = total_amount
     p2.save()
     return redirect("displaysalesbill1")
@@ -165,51 +173,133 @@ def displaysalesbill1(request):
 def display_inventory(request):
     inventory_items = Inventory.objects.all()
     return render(request, "display_inventory.html", {'inventory_items': inventory_items})
+
 def paymentreceived(request):
-    return render(request,"paymentreceived.html")
+    party = Sales_Party.objects.all()
+    print("\n\n",party,"\n\n")
+    if request.method == 'POST':
+        party_id = request.POST.get('paymentReceivedParty')
+        print("\n\n\n!!!!!!!!-------------!!!!!1\n")
+        print(party_id)
+        received_date = request.POST.get('paymentReceivedDate')
+        amt_received = float(request.POST.get('paymentReceivedAmount'))
+        Sparty = Sales_Party.objects.get(id= party_id)
+        Payment_Received.objects.create(receive_date=received_date,sales_party=Sparty,amt_receive=amt_received)
+        return redirect('payment_success')
+    
+    return render(request,"paymentreceived.html",{
+        "party": party
+    })
+
 def paymentpaid(request):
     purchase_parties=Purchase_Party.objects.all()
     return render(request,"payment_paid.html",{
         'purchase_parties':purchase_parties
     })
-def creditors(request):
-    return render(request,"creditors.html")
-def debtors(request):
-    return render(request,"debtors.html")
-def Misc(request):
-     return render(request,"miscelleneousexpanse.html")
 
+def creditors(request):
+    # paymentPaid = Payment_paid.objects.all().order_by('-amt_paid')
+    # creditors = PurchaseBill.objects.values('party__name').annotate(totalAmount=Sum('Totall_amt')).order_by('-Totall_amt')
+    creditors = PurchaseBill.objects.values('party__name').annotate(totalAmount=Sum('Totall_amt')).order_by('-totalAmount')
+    paidPayment = Payment_paid.objects.values('purchase_party__name').annotate(totalPaid=Sum('amt_paid')).order_by('-totalPaid')
+    merged_data = []
+    for creditor in creditors:
+        party_name = creditor['party__name']
+        total_amount = creditor['totalAmount']
+        total_paid = paidPayment.filter(purchase_party__name=party_name).values('totalPaid').first()
+        if total_paid:
+            total_paid = total_paid['totalPaid']
+        else:
+            total_paid = 0
+        
+        # Calculate the difference directly
+        difference = total_amount - total_paid
+        
+        merged_data.append({
+            'partyName': party_name,
+            'totalAmount': total_amount,
+            'totalPaid': total_paid,
+            'difference': difference,
+        })
+    print("\n",creditors,"\n")
+    print("\n",paidPayment,"\n")
+    return render(request,"creditors.html",{
+        "creditors":merged_data
+    })
+
+def debtors(request):
+    debitors = SalesBill.objects.values('party__name').annotate(total_Amount=Sum('Totall_amt')).order_by('-total_Amount')
+    receivePayment = Payment_Received.objects.values('sales_party__name').annotate(total_receive = Sum('amt_receive')).order_by('-total_receive')
+    merged_data = []
+    for debitor in debitors:
+        party_name = debitor['party__name']
+        total_amount = debitor['total_Amount']
+        total_receive = receivePayment.filter(sales_party__name=party_name).values('total_receive').first()
+        if total_receive:
+            total_receive = total_receive['total_receive']
+        else:
+            total_receive = 0
+        
+        # Calculate the difference directly
+        difference = total_amount - total_receive
+        
+        merged_data.append({
+            'partyName': party_name,
+            'totalAmount': total_amount,
+            'totalReceive': total_receive,
+            'difference': difference,
+        })
+    print("\n",debitors,"\n")
+    print("\n",receivePayment,"\n")
+    return render(request,"debtors.html",{
+        "debitors":merged_data
+    })
+
+def Misc(request):
+    return render(request,"miscelleneousexpanse.html")
+
+def submitPaymentReceived(request):
+    return HttpResponse("helo")
 
 def payment_paid(request):
+    purchase_parties=Purchase_Party.objects.all()
+    # print(b)
+    context={
+        "purchase_parties":purchase_parties
+    }
     if request.method == 'POST':
-        date = request.POST.get('date')
-        party_id = request.POST.get('party_id')
+        # date = request.POST.get('date')
+        party_id = request.POST.get('purchase_party')
+        # print("\n\n\n!!!!!!!!-------------!!!!!1\n")
+        # print(party_id)
         paid_date = request.POST.get('paid_date')
-        amt_paid = request.POST.get('amt_paid')
+        amt_paid = float(request.POST.get('amt_paid'))
+        party = Purchase_Party.objects.get(id= party_id)
+        Payment_paid.objects.create(paid_date=paid_date,purchase_party=party,amt_paid=amt_paid)
 
         # Retrieve the purchase party
-        purchase_party = PurchaseBill.objects.get(id=party_id)
+        # purchase_party = PurchaseBill.objects.get(id=party_id)
 
         # Calculate the remaining amount
-        remaining_amt = purchase_party.Totall_amt - float(amt_paid)
+        # remaining_amt = purchase_party.Totall_amt - float(amt_paid)
 
         # Create Payment_paid instance
-        payment = Payment_paid.objects.create(
-            date=date,
-            purchase_party=purchase_party,
-            purchase_party_name=purchase_party.party.name,
-            paid_date=paid_date,
-            amt_paid=amt_paid
-        )
+        # payment = Payment_paid.objects.create(
+        #     date=date,
+        #     purchase_party=purchase_party,
+        #     purchase_party_name=purchase_party.party.name,
+        #     paid_date=paid_date,
+        #     amt_paid=amt_paid
+        # )
 
         # Update remaining amount in PurchaseBill
-        purchase_party.remaining_amt = remaining_amt
-        purchase_party.save()
+        # purchase_party.remaining_amt = remaining_amt
+        # purchase_party.save()
 
         # Redirect to payment success page
         return redirect('payment_success')
 
-    return render(request, 'payment_paid.html')
+    return render(request, 'payment_paid.html',context)
 
 def payment_success(request):
     return render(request, 'payment_success.html')
