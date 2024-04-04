@@ -11,6 +11,7 @@ urlpatterns = [
     path('make_payment/', views.make_payment, name='make_payment'),
     path('payment_success/', views.payment_success, name='payment_success'),
 
+    path('submitPaymentReceived/',views.submitPaymentReceived),
     path('payment-paid/',views.payment_paid, name='payment_paid'),
     path('payment-success/', views.payment_success, name='payment_success'),
     path('displaysalesbill/', views.displaysalesbill, name='displaysalesbill'),
