@@ -54,25 +54,29 @@ def displaypurchasebill(request):
         piece = request.POST.get('piece' + str(i))
         amount = request.POST.get('amount' + str(i))
         total_amount += int(piece) * int(amount)
+        purchase_item.objects.create(purchase=p2,RM_name=r_name,RM_qty=piece,RM_price=amount)
+        inven = Inventory.objects.get(Item_name=r_name)
+        inven.Item_qty+=int(piece)
+        inven.save()
 
-        if Inventory.objects.filter(Item_name=r_name).exists() and purchase_item.objects.filter(purchase=p2, RM_name=r_name).exists():
-            i1 = Inventory.objects.get(Item_name=r_name)
-            i1.Item_qty += int(piece)
-            i1.save()
-            p3 = purchase_item.objects.get(RM_name=r_name, purchase=p2, inventory=i1)
-            p3.RM_qty += int(piece)
-            p3.save()
-        elif Inventory.objects.filter(Item_name=r_name).exists():
-            i1 = Inventory.objects.get(Item_name=r_name)
-            i1.Item_qty += int(piece)
-            i1.save()
-            p3 = purchase_item(RM_name=r_name, RM_qty=piece, RM_price=amount, purchase=p2, inventory=i1)
-            p3.save()
-        else:
-            i1 = Inventory(Item_name=r_name, Item_qty=piece)
-            i1.save()
-            p3 = purchase_item(RM_name=r_name, RM_qty=piece, RM_price=amount, purchase=p2, inventory=i1)
-            p3.save()
+        # if Inventory.objects.filter(Item_name=r_name).exists() and purchase_item.objects.filter(purchase=p2, RM_name=r_name).exists():
+        #     i1 = Inventory.objects.get(Item_name=r_name)
+        #     i1.Item_qty += int(piece)
+        #     i1.save()
+        #     p3 = purchase_item.objects.get(RM_name=r_name, purchase=p2, inventory=i1)
+        #     p3.RM_qty += int(piece)
+        #     p3.save()
+        # elif Inventory.objects.filter(Item_name=r_name).exists():
+        #     i1 = Inventory.objects.get(Item_name=r_name)
+        #     i1.Item_qty += int(piece)
+        #     i1.save()
+        #     p3 = purchase_item(RM_name=r_name, RM_qty=piece, RM_price=amount, purchase=p2, inventory=i1)
+        #     p3.save()
+        # else:
+        #     i1 = Inventory(Item_name=r_name, Item_qty=piece)
+        #     i1.save()
+        #     p3 = purchase_item(RM_name=r_name, RM_qty=piece, RM_price=amount, purchase=p2, inventory=i1)
+        #     p3.save()
 
     p2.Totall_amt = total_amount
     p2.save()

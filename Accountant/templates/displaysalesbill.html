@@ -142,43 +142,7 @@
         </div>
     </div>
 
-    <!-- Purchase Bill Form -->
-    <form id="purchaseBillForm" action="{% url 'submit_purchase_bill' %}" method="post">
-        {% csrf_token %}
-        <label for="bill_id">Bill ID:</label>
-        <input type="text" id="bill_id" name="bill_id" required><br>
-
-        <label for="party_name">Party Name:</label>
-        <input type="text" id="party_name" name="party_name" required><br>
-
-        <label for="date_of_genrate">Date:</label>
-        <input type="date" id="date_of_genrate" name="date_of_genrate" required><br>
-
-        <label for="total_amount">Total Amount:</label>
-        <input type="number" id="total_amount" name="total_amount" required><br>
-
-        <!-- Dynamic Fields -->
-        <div id="dynamicFieldsContainer">
-            <div class="bill-field">
-                <label for="product0">Name of the Finish Goods</label>
-                <select id="product0" name="product0" required>
-                    {% for product in products %}
-                        <option value="{{ product.FG_name }}">{{ product.FG_name }}</option>
-                    {% endfor %}
-                </select>
-                <input type="number" id="piece0" name="piece0" placeholder="No. of pieces" required>
-                <input type="text" id="amount0" name="amount0" placeholder="Amount of single piece" required>
-                <button type="button" class="removeField">Remove</button>
-            </div>
-        </div>
-
-        <button type="button" id="addMore">Add More</button>
-        <div class="button-group">
-            <button type="reset">Reset</button>
-            <button type="submit">Submit</button>
-        </div>
-    </form>
-
+    
     <script>
         // Function to open modal and display card details
         function openModal(id) {

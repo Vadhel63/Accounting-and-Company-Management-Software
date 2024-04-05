@@ -34,17 +34,45 @@ def productionreport(request):
 
 def DisplayPR(request):
     date=request.POST['date']
-    n1=request.POST.get('clickcount1')
-    n2=request.POST.get('clickcount2')
-    for i in range(int(n1)):
-       f = request.POST.get('fg' + str(i))
-       piece1 = request.POST.get('fpiece' + str(i))
-       
-    for i in range(int(n2)):
-       r = request.POST.get('r_name' + str(i))
-       piece2= request.POST.get('rpiece' + str(i))
-    p1=Production_Report(genrate_date=date,RM_qty=piece2,FG_qty=piece1,RM=r,FG=f)
-    p1.save()
+    fg_n=request.POST['clickcount1']
+    rm_n=request.POST['clickcount2']
+    print("-------------------------------------\n")
+    print("fg n = ",fg_n)
+    print("rm n = ",rm_n)
+    print("-------------------------------------\n")
+    prod_repo = Production_Report.objects.create(genrate_date=date)
+    for i in range(0,int(rm_n)+1):
+        r = request.POST.get('r_name' + str(i))
+        print("-------------------------------------\n")
+        print(r)
+        rm = RawMaterial.objects.get(RM_name=r)
+        print(rm)
+        print("-------------------------------------\n")
+        inven = Inventory.objects.get(Item_name=r)
+        piece2= int(request.POST.get('rpiece' + str(i)))
+        if inven.Item_qty - piece2<0:
+            prod_repo.delete()
+            return HttpResponse("Insuffieceint Qauntity in Inventory To Accept Production Report")
+        inven.Item_qty -=piece2
+        inven.save()
+        Production_RM.objects.create(production_repo=prod_repo,RM_name=rm,RM_qty=piece2)
+    
+    for i in range(0,int(fg_n)+1):
+        f = request.POST.get('fg' + str(i))
+        fg = FinishGoods.objects.get(FG_name=f)
+        print("-------------------------------------\n")
+        print(f)
+        # rm = RawMaterial.objects.get(RM_name=r)
+        print(fg)
+        print("-------------------------------------\n")
+        piece1 = int(request.POST.get('fpiece' + str(i)))
+        inven = Inventory.objects.get(Item_name=f)
+        inven.Item_qty +=piece1
+        inven.save()
+        Production_FG.objects.create(production_repo=prod_repo,FG_name=fg,FG_qty=piece1)
+    return HttpResponse("SUCCESS")
+    # p1=Production_Report(genrate_date=date,RM_qty=piece2,FG_qty=piece1,RM=r,FG=f)
+    # p1.save()
 #purchase_party------------------------
 def displaypurchase1(request):
     purchase=Purchase_Party.objects.all()

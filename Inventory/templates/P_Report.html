@@ -152,11 +152,29 @@
         <label for="date" class="form-label">Date</label>
         <input type="date" name="date" id="date" required />
       </div>
-
+      <div id="rawContainer" class="added-field">
+        <div class="raw">
+          <input type="hidden" id="clickcount2" name="clickcount2" value="0" >
+          <div class="form-group">
+            <label for="r_name0" class="form-label">Raw Material Name</label>
+            <select class="form-select" id="r_name0" name="r_name0" required>
+              {% for r in raw %}
+              <option value="{{ r.RM_name }}">{{ r.RM_name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="rpiece0" class="form-label">No. of Pieces</label>
+            <input type="number" name="rpiece0" id="rpiece0" placeholder="Enter quantity" required />
+          </div>
+        </div>
+      </div>
+      
+      <button type="button" class="btn btn-primary" id="addMoreRaw">Add More Raw Material</button>
       <div id="fgContainer" class="added-field">
         <div class="fg">
 
-          <input type="hidden" id="clickcount1" name="clickcount1" value="1" >
+          <input type="hidden" id="clickcount1" name="clickcount1" value="0" >
           <div class="form-group">
 
             <label for="fg0" class="form-label">Finish Goods Name</label>
@@ -175,26 +193,6 @@
       </div>
       
       <button type="button" class="btn btn-primary" id="addMoreFG">Add More Finish Goods</button>
-      
-      <div id="rawContainer" class="added-field">
-        <div class="raw">
-          <input type="hidden" id="clickcount2" name="clickcount2" value="1" >
-          <div class="form-group">
-            <label for="r_name0" class="form-label">Raw Material Name</label>
-            <select class="form-select" id="r_name0" name="r_name0" required>
-              {% for r in raw %}
-                <option value="{{ r.RM_name }}">{{ r.RM_name }}</option>
-              {% endfor %}
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="rpiece0" class="form-label">No. of Pieces</label>
-            <input type="number" name="rpiece0" id="rpiece0" placeholder="Enter quantity" required />
-          </div>
-        </div>
-      </div>
-      
-      <button type="button" class="btn btn-primary" id="addMoreRaw">Add More Raw Material</button>
       
       <div class="btn-container">
         <button type="reset" class="btn btn-secondary">Reset</button>
@@ -228,9 +226,12 @@
         </div>
         <button type="button" class="delete-field-btn" onclick="deleteField(this)">Delete</button>
       `;
+      console.log("Jawab to de")
       container.appendChild(newField);
       fgCount++; 
-      clickcountInput.value = fgCount;
+      //clickcountInput.value = fgCount;
+      document.getElementById("clickcount1").value=fgCount;
+      console.log(fgCount)
     });
 
     document.getElementById('addMoreRaw').addEventListener('click', function() {
@@ -256,7 +257,8 @@
       `;
       container.appendChild(newField);
       rawCount++; 
-      clickcountInput.value = rawCount;
+      //clickcountInput.value = rawCount;
+      document.getElementById("clickcount2").value=rawCount;
     });
 
     function deleteField(element) {

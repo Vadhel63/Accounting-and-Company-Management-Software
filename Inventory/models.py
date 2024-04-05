@@ -109,16 +109,3 @@ class Inventory(models.Model):
     Item_qty=models.IntegerField()
     def __str__(self):
         return str(self.Item_name)
-
-
-
-
-    
-
-
-
-
-
-
-
-
