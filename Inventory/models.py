@@ -82,10 +82,27 @@ class WastageItem(models.Model):
     WI_name=models.CharField(max_length=50)
 class Production_Report(models.Model):
     genrate_date=models.DateTimeField()
-    RM=models.ForeignKey(RawMaterial,on_delete=models.CASCADE)
-    RM_qty=models.IntegerField(default=2)
-    FG=models.ForeignKey(FinishGoods,on_delete=models.CASCADE)
-    FG_qty=models.IntegerField(default=1)
+    # RM=models.ForeignKey(RawMaterial,on_delete=models.CASCADE)
+    # RM_qty=models.IntegerField(default=2)
+    # FG=models.ForeignKey(FinishGoods,on_delete=models.CASCADE)
+    # FG_qty=models.IntegerField(default=1)
+    def __str__(self):
+        return "Id : "+ str(self.id)+ "/ Date : "+str(self.genrate_date)
+
+
+class Production_RM(models.Model):
+    production_repo=models.ForeignKey(Production_Report,on_delete=models.CASCADE)
+    RM_name=models.ForeignKey(RawMaterial,on_delete= models.DO_NOTHING )
+    RM_qty=models.IntegerField()
+    def __str__(self):
+        return "Id : "+ str(self.production_repo.id)+ "/ RM : "+str(self.RM_name)
+
+class Production_FG(models.Model):
+    production_repo=models.ForeignKey(Production_Report,on_delete=models.CASCADE)
+    FG_name=models.ForeignKey(FinishGoods,on_delete= models.DO_NOTHING )
+    FG_qty=models.IntegerField()
+    def __str__(self):
+        return "Id : "+ str(self.production_repo.id)+ "/ RM : "+str(self.FG_name)
 
 class Inventory(models.Model):
     Item_name=models.CharField(max_length=55)
